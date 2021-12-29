@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "198271571539",
+    "project_id": "contactflutter-da377",
+    "storage_bucket": "contactflutter-da377.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198271571539:android:2e4c7d1532a01aa701d8a6",
+        "android_client_info": {
+          "package_name": "com.example.contackflutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198271571539-desle812tpv8vhsl875fip45g8f1jss1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsV7wsMlWE19ajvU3MEgBj6rwl-Ow7w_c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198271571539-desle812tpv8vhsl875fip45g8f1jss1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
