@@ -26,8 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void navigationTapped(int page) {
-  }
+  void navigationTapped(int page) {}
 
   void getUsername() async {
     DocumentSnapshot snap = await FirebaseFirestore.instance
@@ -37,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       username = (snap.data() as Map<String, dynamic>)["username"];
       contacts = (snap.data() as Map<String, dynamic>)["contacts"];
-      print(contacts);
     });
   }
 
@@ -67,17 +65,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ))
           ],
         ),
-        body: Row(
-          children: [
-            Row(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Text(username)
-              ],
-            )
-          ],
+        body: contacts.isEmpty ?  const Text("No contacts") : ListView.builder(
+          itemCount: contacts.length,
+          itemBuilder: (context, index) {
+            final item = contacts[index];
+            
+            return ListTile(
+              title: Text(item["name"]),
+              subtitle: Text(item["phone"]),
+            );
+          },
         ));
   }
 }
