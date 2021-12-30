@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:contackflutter/providers/user_provider.dart';
-import 'package:contackflutter/screens/add_contact.dart';
+import 'package:contackflutter/screens/login.dart';
+import 'package:contackflutter/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:contackflutter/models/user.dart' as model;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,38 +13,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String username = "";
-  int _page = 0;
-  late PageController pageController;
+  List contacts = [];
 
   @override
   void initState() {
     super.initState();
     getUsername();
-    addData();
-    pageController = PageController();
   }
 
   @override
   void dispose() {
     super.dispose();
-    pageController.dispose();
   }
 
   void navigationTapped(int page) {
-    pageController.jumpToPage(page);
-  }
-
-  void onPageChanged(int page) {
-    setState(() {
-      _page = page;
-    });
-  }
-
-  addData() async {
-    UserProvider _userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    await _userProvider.refreshUser();
-    print("add");
   }
 
   void getUsername() async {
@@ -57,31 +36,48 @@ class _HomeScreenState extends State<HomeScreen> {
         .get();
     setState(() {
       username = (snap.data() as Map<String, dynamic>)["username"];
+      contacts = (snap.data() as Map<String, dynamic>)["contacts"];
+      print(contacts);
     });
-    print("get");
   }
 
   @override
   Widget build(BuildContext context) {
-    model.User? user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
-      body: PageView(
-        children: [Text("Home"), AddContact()],
-        controller: pageController,
-        onPageChanged: onPageChanged,
-      ),
-      bottomNavigationBar: CupertinoTabBar(
-        backgroundColor: Colors.black,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: "", backgroundColor: Colors.white),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle),
-              label: "",
-              backgroundColor: Colors.white),
-        ],
-        onTap: navigationTapped,
-      ),
-    );
+        appBar: AppBar(
+          title: Text(
+            "Kontakt",
+          ),
+          backgroundColor: Colors.black,
+          automaticallyImplyLeading: false,
+          actions: [
+            Text(
+              username,
+              style: TextStyle(color: Colors.blue.shade400),
+            ),
+            TextButton(
+                onPressed: () async {
+                  await AuthMethods().signOut();
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
+                child: const Text(
+                  "logout",
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ))
+          ],
+        ),
+        body: Row(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Text(username)
+              ],
+            )
+          ],
+        ));
   }
 }

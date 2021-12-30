@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contackflutter/models/user.dart' as model;
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthMethods {
@@ -64,5 +63,11 @@ class AuthMethods {
     }
 
     return res;
+  }
+
+  Future<String> signOut() async {
+    var t = "signout";
+    await _auth.signOut();
+    return t;
   }
 }
